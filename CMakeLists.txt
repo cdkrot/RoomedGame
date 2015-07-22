@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.2)
 project (roomed-game)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
 set(SRC_LIST src/cpp/main.cpp)
 set(LIB_LIST GLEW glfw pthread) # g++ refuses to compile multithreaded code without pthread lib.
 
