@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <thread>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <iostream>
-#include <thread>
 
 int main();
-void render_main();
+void renderMain();
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
 	return 0;
 }
 
-void render_main()
+void renderMain()
 {
 	// this code is based on opengl-tutorial.org
 	// as i understand they don't mind using it
