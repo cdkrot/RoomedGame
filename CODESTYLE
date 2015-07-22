@@ -1,0 +1,117 @@
+This document documents the codestyle rules.
+It maybe too mixed, but the content is important.
+Version 1, to be revisited in future.
+
+
+Use tabs and not spaces.
+Tabs let more control to different readers. If in doubt set width to 4 spaces.
+
+Line length.
+Lines shouldn't be too large, the 110 chars is max acceptable.
+(Some say 80 chars, but i think, that it is overkill).
+
+Trust your library and write shorter code.
+If the task is implemented in a library, consider using it.
+Use modern features of c++11, c++14. Use lambdas and other functional methods.
+
+Exceptions.
+Exceptions are okay only if something fatal is happening, otherways
+use std::optional, error codes and something like that.
+
+Memory management.
+Avoid VLA's, explicit memory management.
+Use RAII, smartpointers, std::make_shared, etc.
+
+Global variables.
+The rule is that it should be possible to create multiple hierarchies of classes
+and that they shouldn't conflict.
+This may sound strange, but leads to better design.
+Avoid non-const global data, unless it can be shared between multiple program
+instances, don't knowing about each other.
+
+Name scope.
+Names should have as small scope, as possible.
+Don't declare visible stuff in .h, which is not subject for export.
+Hide non-API methods of classes.
+Declare local variables as close to the usage as possible, and combine the creation
+and initialization of it if possible.
+
+Comments
+Comments are allowed if they document the code in higher level of abstraction
+(e.g. NOT repeat or explain code).
+
+Headers: include order.
+The relative order of includes should be:
+* Related header (for source file, with .h friend).
+* C library headers
+* C++ library headers
+* Other library headers.
+* Project's headers.
+
+Macroses
+Don't use macroses if possible, replace them with inline functions.
+Noticeable exceptions: (1) assert(cond) macros, which uses #cond for showing
+the error in details. (and similar).
+(2) Macroses in unittests. They provide a level of abstraction between
+testing library and your code.
+
+Pointers and reference style
+The asterisk (*) or ampersand (&) should go closer to class, to underline the
+type change.
+Like this: int* pointer.
+Do not declare two pointers or references at once.
+
+Logical operators.
+For logical operators use symbolic name, e.g. and, or, xor.
+"not" can be written in both ways (not, !).
+Bit invertion "~" is written using tilda.
+
+Spacing.
+For operators taking two operands (on left and on right), make a space on both sides.
+E.g. (a = b + c * d)
+Make space after comma: void foo(int a, int b)
+Remove redundant whitespace.
+
+Indentation.
+Make a identations. Inside class { }, inside functions, etc.
+
+Brackets.
+Opening bracket goes on next line.
+void foo() <-- no redundant whitespace here.
+{
+	<-- notice the indentation.
+}
+
+Omit curly brackets, if it is not needed (one statement if, for, while), but keep if you
+will get an ambigious else:
+if (..)
+{ // this braces ss
+	if (..)
+		statement;
+	else
+		statement;
+}
+
+Naming: general
+Avoid ambigious abbreviations. (Obvious abbreviations like cur, num, id are allowed).
+
+Naming: files.
+File names should consist of small english letters and '-'.
+Source files should end with ".cpp".
+Headers files should end with ".h" (and should live separately from sources).
+Tests should be in form "{test's subject}-test.cpp"
+
+Naming: macroses and macro constants.
+Use capitalization I_AM_BIG_SCARY_MACRO
+
+Naming: variables.
+Variables everywhere are written using lowercase and underscore.
+num_entries, cur_object, object_pool.
+Do not add special endings for objects inside class. It looks bad.
+
+Naming: functions
+use mixed case: myFunctionName.
+(exception: external API).
+
+Naming: classes.
+Use camel case MyClassName.
