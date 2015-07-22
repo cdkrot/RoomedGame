@@ -11,4 +11,5 @@ include_directories(src/h/)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 # target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
-
+add_subdirectory (src/google-test) # build google-test library.
+add_subdirectory (src/tests) # build tests.
