@@ -11,7 +11,7 @@ void renderMain();
 
 int main()
 {
-	std::thread render_thread(render_main);
+	std::thread render_thread(renderMain);
 	render_thread.join();
 	return 0;
 }
