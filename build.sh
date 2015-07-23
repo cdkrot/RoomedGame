@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-# simple build script. Should be run from project root.
+cd $(dirname $0)
 
 mkdir -p build
 cd build
