@@ -4,11 +4,11 @@
 // triangles must be clockwise.
 struct Triangle
 {
-	glm::vec3<float> a;
-	glm::vec3<float> b;
-	glm::vec3<float> c;
+	glm::vec3 a;
+	glm::vec3 b;
+	glm::vec3 c;
 	/* some texture info here */
-}
+};
 
 
 #endif
