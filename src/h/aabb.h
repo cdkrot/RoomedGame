@@ -1,6 +1,8 @@
 #ifndef AABB_INCL_H
 #define AABB_INCL_H
 
+#include <glm/glm.hpp>
+
 // triangles must be clockwise.
 struct AABB
 {
