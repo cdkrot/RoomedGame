@@ -3,7 +3,9 @@ project (roomed-game)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
 set(SRC_LIST src/cpp/main.cpp
-             src/cpp/world.cpp)
+             src/cpp/world.cpp
+             src/cpp/entity-mgr.cpp
+             src/cpp/entity/entity.cpp)
 set(LIB_LIST GLEW glfw pthread) # g++ refuses to compile multithreaded code without pthread lib.
 
 include_directories(src/h/)

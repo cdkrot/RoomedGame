@@ -9,6 +9,7 @@
 class Model
 {
 	public:
+		Model() = default;
 		Model(const std::vector<Triangle> triangles): triangles(triangles) {}
 		~Model() = default;
 		
