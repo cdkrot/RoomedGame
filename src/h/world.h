@@ -13,17 +13,20 @@ class EntityMgr;
 class World
 {
 	public:
-		World(EntityMgr* mgr): mgr(mgr) {}
+		World()  = default;
 		~World() = default;
 		
-		std::list<Entity> getEntitiesIn(AABB aabb);
-		void              forEntitiesIn(AABB aabb, std::function<void(const Entity&)> observer);
+		Entity::IDType spawnEntity(Model* m, glm::vec3 pos, glm::vec3 rotation);
+		void           forEntitiesIn(AABB aabb, std::function<void(Entity&)> observer);
+		void           doWithEntity(Entity::IDType id, std::function<void(Entity&)> observer);
+		void           despawnEntity(Entity::IDType id);
+
 		
 	private:
 		glm::ivec3 boxifyFlooring(glm::vec3 vec);
 		glm::ivec3 boxifyCeiling (glm::vec3 vec);
-		void silentlyRemoveEntity(Entity::IDType entity_id);
-		void silentlyAddEntity(Entity entity);
+		
+		Entity::Callbacks getCallbacksForEntity();
 		
 		const uint32_t box_size_x = 32;
 		const uint32_t box_size_y = 32;
@@ -38,10 +41,12 @@ class World
 			}
 		};
 		
-		const EntityMgr* mgr;
-		std::unordered_map<glm::ivec3, std::list<Entity>, hasher> spatial_map;
-		std::unordered_map<Entity::IDType, std::pair<glm::ivec3, std::list<Entity>::iterator>> entity_locator;
-		friend class EntityMgr;
+		// i am satisfied with following objects (they are too complex for understanding),
+		// but out interfaces seems to be well.
+		uint32_t next_entity_id = 0;
+		std::list<Entity> entities;
+		std::unordered_map<glm::ivec3, std::list<std::list<Entity>::iterator>, hasher> spatial_map;
+		std::unordered_map<Entity::IDType, std::pair<glm::ivec3, std::list<std::list<Entity>::iterator>::iterator>> entity_locator;
 };
 
 #endif
