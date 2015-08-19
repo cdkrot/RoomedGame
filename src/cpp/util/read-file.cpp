@@ -1,9 +1,12 @@
 #include "util/read-file.h"
 
 
-Optional<std::vector<char>> readFile(const char* path)
+Optional<std::vector<char>> readFile(const std::string& path)
 {
-	FILE* fin = fopen(path, "rb");
+	FILE* fin = fopen(path.c_str(), "rb");
+	if (fin == nullptr)
+		return NullOpt;
+	
 	std::vector<char> result;
 	while (ferror(fin) == 0)
 	{

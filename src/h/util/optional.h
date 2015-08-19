@@ -3,6 +3,10 @@
 
 #include <experimental/optional>
 
-typedef std::experimental::optional Optional;
+template <typename T>
+using Optional = std::experimental::optional<T>;
+
+// TODO: how without define?
+#define NullOpt std::experimental::nullopt
 
 #endif

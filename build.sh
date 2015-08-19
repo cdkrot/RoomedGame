@@ -14,6 +14,8 @@ fi
 /bin/echo -e "\x1b[31;1m## running make   ##\x1b[0m"
 make -j 3
 /bin/echo -e "\x1b[31;1m## running tests  ##\x1b[0m"
-./src/tests/run-tests
+
+cd .. # tests should be run in project root.
+./build/src/tests/run-tests
 /bin/echo -e "\x1b[31;1m## build succeded ##\x1b[0m"
 

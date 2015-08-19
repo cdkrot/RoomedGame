@@ -3,8 +3,9 @@
 
 #include <stdio.h>
 #include <vector>
+#include <string>
 #include "util/optional.h"
 
-Optional<std::vector<char>> readFile(const char* path);
+Optional<std::vector<char>> readFile(const std::string& path);
 
 #endif
