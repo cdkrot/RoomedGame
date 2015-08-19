@@ -16,4 +16,10 @@ inline bool isInsideAABB(AABB aabb, glm::vec3 point)
 	   and (aabb.hi.x >= point.x and aabb.hi.y >= point.y and aabb.hi.z >= point.z);
 }
 
+inline AABB makeCenteredAABB(glm::vec3 point, float d)
+{
+	return AABB {glm::vec3(point.x - d, point.y - d, point.z - d),
+	             glm::vec3(point.x + d, point.y + d, point.z + d)};
+}
+
 #endif
