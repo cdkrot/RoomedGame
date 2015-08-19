@@ -10,6 +10,7 @@ set(SRC_LIST src/cpp/main.cpp
              src/cpp/entity/entity.cpp
              src/cpp/render/render-main.cpp
              src/cpp/render/model-cache.cpp
+             src/cpp/render/shader-utils.cpp
              src/cpp/util/read-file.cpp)
 set(LIB_LIST ${OPENGL_LIBRARY} GLEW glfw pthread) # g++ refuses to compile multithreaded code without pthread lib.
 
