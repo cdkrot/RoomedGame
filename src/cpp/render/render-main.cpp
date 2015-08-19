@@ -1,4 +1,5 @@
 #include "render/render-main.h"
+#include "render/shader-utils.h"
 #include "world.h"
 #include "aabb.h"
 
@@ -43,13 +44,17 @@ void RenderMain::requestStop()
 void RenderMain::run(const World& world, const PositionedObject& camera)
 {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+	
+	GLuint gl_program = *loadShaders("res/vertex.glsl", "res/fragment.glsl");
+	glGenVertexArrays(1, &vertex_array_object);
+	glBindVertexArray(vertex_array_object);
 	
 	while (should_run and glfwWindowShouldClose(window) == 0) // temporary.
 	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUseProgram(gl_program);
 		glEnableVertexAttribArray(0);
+		
 		
 		AABB cameraAABB = makeCenteredAABB(camera.getPosition(), 100.0);
 		auto drawEntity = std::function<void(const Entity&)>([this](const Entity& e) -> void

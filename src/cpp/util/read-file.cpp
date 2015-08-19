@@ -16,6 +16,8 @@ Optional<std::vector<char>> readFile(const std::string& path)
 		result.push_back(static_cast<char>(c));
 	}
 	
+	result.push_back('\0');
+	
 	if (ferror(fin) != 0)
 		return NullOpt;
 	else

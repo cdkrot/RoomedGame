@@ -1,9 +1,7 @@
 #include "render/shader-utils.h"
-#include <vector>
-#include <string>
 #include "util/read-file.h"
 
-std::pair<GLint, vector<char>> compileShader(GLuint shader_id, const char* data)
+std::pair<GLint, std::vector<char>> compileShader(GLuint shader_id, const char* data)
 {
 	glShaderSource(shader_id, 1, &data, NULL);
 	glCompileShader(shader_id);
@@ -18,7 +16,7 @@ std::pair<GLint, vector<char>> compileShader(GLuint shader_id, const char* data)
 	return make_pair(result, compilation_log);
 }
 
-std::pair<GLint, vector<char>> compileProgram(GLuint program)
+std::pair<GLint, std::vector<char>> compileProgram(GLuint program)
 {
 	glLinkProgram(program);
 	
@@ -37,11 +35,17 @@ Optional<GLuint> loadShaders(const std::string& vertex_file_path, const std::str
 	GLuint   vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 	
-	std::vector<char>   vertex_shader_code = readFile(vertex_file_path);
-	std::vector<char> fragment_shader_code = readFile(fragment_file_path);
+	Optional<std::vector<char>> vertex_shader_code = readFile(vertex_file_path);
+	Optional<std::vector<char>> fragment_shader_code = readFile(fragment_file_path);
 	
-	auto vertex_shader_log   = compileShader(    vertex_shader_id,   vertex_shader_code.data());
-	auto fragment_shader_log = compileShader(fragment_shader_code, fragment_shader_code.data());
+	if ((not fragment_shader_code) or (not vertex_shader_code))
+		return NullOpt;
+	
+	fprintf(stderr, "%s\n", fragment_shader_code->data());
+
+	
+	auto vertex_shader_log   = compileShader(  vertex_shader_id,   vertex_shader_code->data());
+	auto fragment_shader_log = compileShader(fragment_shader_id, fragment_shader_code->data());
 	
 	if (not vertex_shader_log.second.empty())
 		fprintf(stderr, "During compilation of %s:\n%s\n", vertex_file_path.c_str(), vertex_shader_log.second.data());
@@ -59,7 +63,7 @@ Optional<GLuint> loadShaders(const std::string& vertex_file_path, const std::str
 	auto program_log = compileProgram(program);
 	if (not program_log.second.empty())
 		fprintf(stderr, "During linking of %s and %s:\n%s\n",
-		       vertex_file_paht.c_str(), fragment_file_path.c_str(), program_log.second.data());
+		       vertex_file_path.c_str(), fragment_file_path.c_str(), program_log.second.data());
 	
 	glDeleteShader(vertex_shader_id);
 	glDeleteShader(fragment_shader_id);
