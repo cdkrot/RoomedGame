@@ -9,7 +9,8 @@ set(SRC_LIST src/cpp/main.cpp
              src/cpp/world.cpp
              src/cpp/entity/entity.cpp
              src/cpp/render/render-main.cpp
-             src/cpp/render/model-cache.cpp)
+             src/cpp/render/model-cache.cpp
+             src/cpp/util/read-file.cpp)
 set(LIB_LIST ${OPENGL_LIBRARY} GLEW glfw pthread) # g++ refuses to compile multithreaded code without pthread lib.
 
 include_directories(src/h/)
