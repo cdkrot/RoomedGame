@@ -41,9 +41,6 @@ Optional<GLuint> loadShaders(const std::string& vertex_file_path, const std::str
 	if ((not fragment_shader_code) or (not vertex_shader_code))
 		return NullOpt;
 	
-	fprintf(stderr, "%s\n", fragment_shader_code->data());
-
-	
 	auto vertex_shader_log   = compileShader(  vertex_shader_id,   vertex_shader_code->data());
 	auto fragment_shader_log = compileShader(fragment_shader_id, fragment_shader_code->data());
 	

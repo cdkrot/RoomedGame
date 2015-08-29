@@ -1,3 +1,4 @@
+#include <thread>
 #include "render/render-main.h"
 #include "render/shader-utils.h"
 #include "world.h"
@@ -44,6 +45,14 @@ void RenderMain::requestStop()
 void RenderMain::run(const World& world, const PositionedObject& camera)
 {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	std::thread input_thread([](GLFWwindow* window)
+	{
+		while (true)
+		{
+			if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+				fprintf(stderr, "Button press ok\n");
+		}
+	}, window);
 	
 	GLuint gl_program = *loadShaders("res/vertex.glsl", "res/fragment.glsl");
 	glGenVertexArrays(1, &vertex_array_object);
@@ -70,7 +79,7 @@ void RenderMain::run(const World& world, const PositionedObject& camera)
 				static_cast<void*>(0)  // offset.
 			);
 			
-			fprintf(stderr, "Requested render\n");
+			//fprintf(stderr, "Requested render\n");
 			glDrawArrays(GL_TRIANGLES, 0, buffer_info.first / 3);
 		});
 		

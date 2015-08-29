@@ -9,9 +9,6 @@
 
 int main()
 {
-	RenderMain renderer;
-	renderer.init();
-	
 	World w;
 	w.spawnEntity(new Model({
 		-1.0f, -1.0f, 0.0f,
@@ -20,14 +17,15 @@ int main()
 	}), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 	PositionedObject camera(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 	
-	renderer.run(w, camera);
+	std::thread render_thread([](World& w, PositionedObject& camera)
+	{
+		RenderMain renderer;
+		renderer.init();
+		renderer.run(w, camera);
+		renderer.shutdown();
+	}, std::ref(w), std::ref(camera));
 	
-	// no idea why, but this code fails to run (via sigsegv on first opengl call), but the above
-	// succeeds.
-	//std::thread render_thread([&renderer, &w, &camera](){renderer.run(w, camera);});
-	//render_thread.join();
-	
-	renderer.shutdown();
+	render_thread.join();
 	
 	return 0;
 }
