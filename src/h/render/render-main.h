@@ -17,7 +17,6 @@ class RenderMain
 		~RenderMain();
 		void run(); // just run.
 		void run_once(); // just render once.
-		void shutdown(); // run library shutdowns.
 	private:
 		GLuint vertex_array_object;
 		Game* game;

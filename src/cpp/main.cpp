@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include "world.h"
+#include "world-updater.h"
 #include "entity/entity.h"
 #include "render/model.h"
 #include "render/render-main.h"
@@ -24,10 +25,12 @@ int main()
 	}), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 	
 	// throwed away multithreading for a while
-	RenderMain renderer(&game);
+	RenderMain   renderer(&game);
+	WorldUpdater updater (&game); // polls input and runs the update.
 	
 	while (game.should_run)
 	{
+		updater.run_once();
 		renderer.run_once();
 	}
 	
