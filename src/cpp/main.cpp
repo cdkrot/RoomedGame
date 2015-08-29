@@ -9,23 +9,27 @@
 
 int main()
 {
-	World w;
-	w.spawnEntity(new Model({
+	Game game
+	{
+		World(),
+		PositionedObject(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), // Camera.
+		nullptr, // window handle.
+		true // running?
+	};
+	
+	game.world.spawnEntity(new Model({
 		-1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
 		0.0f,  1.0f, 0.0f
 	}), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
-	PositionedObject camera(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 	
-	std::thread render_thread([](World& w, PositionedObject& camera)
+	// throwed away multithreading for a while
+	RenderMain renderer(&game);
+	
+	while (game.should_run)
 	{
-		RenderMain renderer;
-		renderer.init();
-		renderer.run(w, camera);
-		renderer.shutdown();
-	}, std::ref(w), std::ref(camera));
-	
-	render_thread.join();
+		renderer.run_once();
+	}
 	
 	return 0;
 }

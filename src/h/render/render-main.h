@@ -7,19 +7,21 @@
 #include "world.h"
 #include "entity/entity.h"
 #include "render/model-cache.h"
+#include "game.h"
 
 
 class RenderMain
 {
 	public:
-		void init(); // run library initilization
-		void run(const World& world, const PositionedObject& camera); // just run.
-		void requestStop();
+		RenderMain(Game* game);
+		~RenderMain();
+		void run(); // just run.
+		void run_once(); // just render once.
 		void shutdown(); // run library shutdowns.
 	private:
 		GLuint vertex_array_object;
-		bool should_run = true;
-		GLFWwindow* window;
+		Game* game;
+		GLuint gl_program;
 		ModelCache model_cache;
 };
 

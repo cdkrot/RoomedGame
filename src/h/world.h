@@ -18,7 +18,7 @@ class World
 		
 		Entity::IDType spawnEntity(Model* m, glm::vec3 pos, glm::vec3 rotation);
 		void           forEntitiesIn(AABB aabb, std::function<void(Entity&)> observer);
-		void           forEntitiesIn(AABB aabb, std::function<void(const Entity&)> observer) const;
+		//void           forEntitiesIn(AABB aabb, std::function<void(const Entity&)> observer) const;
 		void           doWithEntity(Entity::IDType id, std::function<void(Entity&)> observer);
 		void           despawnEntity(Entity::IDType id);
 

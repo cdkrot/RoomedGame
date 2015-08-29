@@ -15,7 +15,7 @@ void World::forEntitiesIn(AABB aabb, std::function<void(Entity&)> observer)
 							observer(pEntity->second.second);
 }
 
-void World::forEntitiesIn(AABB aabb, std::function<void(const Entity&)> observer) const
+/*void World::forEntitiesIn(AABB aabb, std::function<void(const Entity&)> observer) const
 {
 	glm::ivec3 vec0 = boxifyFlooring(aabb.lo);
 	glm::ivec3 vec1 = boxifyCeiling (aabb.hi);
@@ -27,7 +27,7 @@ void World::forEntitiesIn(AABB aabb, std::function<void(const Entity&)> observer
 					for (const auto& pEntity: spatial_map.find(glm::ivec3(x, y, z))->second)
 						if (isInsideAABB(aabb, pEntity->second.second.getPosition()))
 							observer(pEntity->second.second);
-}
+}*/
 
 Entity::IDType World::spawnEntity(Model* m, glm::vec3 pos, glm::vec3 rotation)
 {
