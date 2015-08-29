@@ -1,5 +1,9 @@
-#include <thread>
 #include "render/render-main.h"
+#include <thread>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "render/shader-utils.h"
 #include "world.h"
 #include "aabb.h"
@@ -56,11 +60,28 @@ void RenderMain::run_once()
 	glUseProgram(gl_program);
 	glEnableVertexAttribArray(0);
 	
-	
 	AABB cameraAABB = makeCenteredAABB(game->camera.getPosition(), 100.0);
-	auto drawEntity = std::function<void(const Entity&)>([this](const Entity& e) -> void
+	
+	printf("%f %f %f\n", game->camera.getPosition().x, game->camera.getPosition().y, game->camera.getPosition().z);
+	glm::mat4 proj_matrix = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	glm::mat4 view_matrix = glm::lookAt(
+		game->camera.getPosition(),
+		game->camera.getPosition() + glm::vec3(0, 0, -1),
+		glm::vec3(0, 1, 0)
+	);
+	
+	glm::mat4 PV_matrix = proj_matrix * view_matrix;
+	
+	auto drawEntity = std::function<void(const Entity&)>([this, &PV_matrix](const Entity& e) -> void
 	{
 		auto buffer_info = (this->model_cache).getModelBuffer(e.getModel());
+		
+		glm::mat4 model_matrix = glm::mat4(1.0);
+		glm::mat4 MVP = PV_matrix * model_matrix;
+		
+		GLuint gl_var_id = glGetUniformLocation((this->gl_program), "MVP");
+		glUniformMatrix4fv(gl_var_id, 1, GL_FALSE, &MVP[0][0]);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, buffer_info.second);
 		glVertexAttribPointer(
 			0,                     // shader attribute id
@@ -71,8 +92,8 @@ void RenderMain::run_once()
 			static_cast<void*>(0)  // offset.
 		);
 		
-		//fprintf(stderr, "Requested render\n");
 		glDrawArrays(GL_TRIANGLES, 0, buffer_info.first / 3);
+		printf("Requested render\n");
 	});
 	
 	game->world.forEntitiesIn(cameraAABB, drawEntity);
