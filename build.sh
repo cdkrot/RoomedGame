@@ -5,7 +5,7 @@ cd $(dirname $0)
 mkdir -p build
 cd build
 /bin/echo -e "\x1b[31;1m## running cmake  ##\x1b[0m"
-if [ $1 = "DBG" ]
+if [ "$1" = "DBG" ]
 then
 	cmake -DCMAKE_BUILD_TYPE:STRING=Debug ..
 else
