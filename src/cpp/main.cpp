@@ -14,7 +14,7 @@ int main()
 	Game game
 	{
 		World(),
-		PositionedObject(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0)), // Camera.
+		PositionedObject(glm::vec3(-1, 0.5, 0), glm::vec3(0, 0, 0)), // Camera.
 		nullptr, // window handle.
 		true // running?
 	};
@@ -25,6 +25,15 @@ int main()
 		0.0f,  1.0f, 0.0f,
 	}), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 		
+	
+	game.world.spawnEntity(new Model({
+		-1.0f, -1.5f, -1.0f,
+		1.0f, -1.5f, -1.0f,
+		0.0f, -1.5f, 1.0f
+	}), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
+		
+
+	
 	
 	// throwed away multithreading for a while
 	RenderMain   renderer(&game);
