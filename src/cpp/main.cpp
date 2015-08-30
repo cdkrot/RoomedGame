@@ -14,7 +14,7 @@ int main()
 	Game game
 	{
 		World(),
-		PositionedObject(glm::vec3(-1, 0.5, 0), glm::vec3(0, 0, 0)), // Camera.
+		PositionedObject(glm::vec3(-1, 0.5, +3), glm::vec3(0, 0, 0)), // Camera.
 		nullptr, // window handle.
 		true // running?
 	};

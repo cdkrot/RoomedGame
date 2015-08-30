@@ -40,7 +40,6 @@ RenderMain::RenderMain(Game* game): game(game)
 		std::terminate();
 	}
 	
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 	gl_program = *loadShaders("res/vertex.glsl", "res/fragment.glsl");
 	
 	glGenVertexArrays(1, &vertex_array_object);
@@ -56,6 +55,10 @@ void RenderMain::run()
 
 void RenderMain::run_once()
 {
+	int width, height;
+	glfwGetWindowSize(game->window, &width, &height);
+	glViewport(0, 0, width, height);
+	glClearColor(0.0f, 0.0f, 0.3f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(gl_program);
 	glEnableVertexAttribArray(0);
@@ -63,7 +66,7 @@ void RenderMain::run_once()
 	AABB cameraAABB = makeCenteredAABB(game->camera.getPosition(), 100.0);
 	
 	printf("%f %f %f\n", game->camera.getPosition().x, game->camera.getPosition().y, game->camera.getPosition().z);
-	glm::mat4 proj_matrix = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	glm::mat4 proj_matrix = glm::perspective(45.0f, 1.0f * width / height, 0.1f, 100.0f);
 	glm::mat4 view_matrix = glm::lookAt(
 		game->camera.getPosition(),
 		game->camera.getPosition() + glm::vec3(0, 0, -1),
