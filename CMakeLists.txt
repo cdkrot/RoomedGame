@@ -22,3 +22,13 @@ target_link_libraries(${PROJECT_NAME} ${LIB_LIST})
 
 add_subdirectory (src/google-test) # build google-test library.
 add_subdirectory (src/tests) # build tests.
+
+add_custom_target(run-roomed-game-tests
+                  DEPENDS roomed-game-tests-binary 
+                  COMMAND ${CMAKE_BINARY_DIR}/src/tests/roomed-game-tests-binary
+                  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+add_dependencies(roomed-game run-roomed-game-tests)
+# we want our tests to be run, so we add this as dep.
+# in fact, this appears fun, because tests are run before the entire project
+# is built.

@@ -11,6 +11,8 @@
 
 int main()
 {
+	 printf("hello, world\n");
+	
 	Game game
 	{
 		World(),
